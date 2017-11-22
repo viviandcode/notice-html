@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>业务通告 - 浏览通告</title>
+
+  <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <script src="https://use.fontawesome.com/139fb40d1a.js"></script>
+
+  <link rel="stylesheet/less" type="text/css" href="css/styles.less">
+  <!---注意你的less样式文件一定要在引入less.js前先引入--->
+  <script src="https://cdn.bootcss.com/less.js/2.7.2/less.min.js" type="text/javascript"></script>
+
+  <script src="https://cdn.bootcss.com/vue/2.4.2/vue.min.js"></script>
+</head>
+<body>
+  <div class="container-fluid" role="navigation" id="vue">
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-menu" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">业务通告</a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="main-menu">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="index.html">今日航班 <i class="fa fa-plane" aria-hidden="true"></i></a></li>
+            <li class="active"><a href="view.html">浏览通告 <i class="fa fa-file-text" aria-hidden="true"></i></a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">添加业务通告 <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="cancel.html">添加"取消通告" <i class="fa fa-times" aria-hidden="true"></i></a></li>
+                <li class="divider"></li>
+                <li><a href="regular.html">周期性业务通告 <i class="fa fa-refresh" aria-hidden="true"></i></a></li>
+                <li class="divider"></li>
+                <li><a href="unregular.html">非周期性业务通告 <i class="fa fa-spinner" aria-hidden="true"></i></a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </nav>
+
+    <div class="menu-offset panel panel-default table-responsive">
+      <div class="panel-heading clearfix">
+        <strong>业务通告浏览</strong>
+        <div class="over-time-toggle pull-right">
+          <label>{{ overTimeShow ? '显示' : '隐藏'}}无效通告</label>
+          <a href="#" @click.stop="overTimeToggle"><i class="fa fa-toggle-on" :class="{'fa-rotate-180': overTimeShow}" aria-hidden="true"></i></a>
+        </div>
+      </div>
+      <table class="table table-bordered table-striped table-hover">
+        <thead>
+          <tr>
+            <th class="serial">编号</th>
+            <th class="company">公司</th>
+            <th class="term">有效期</th>
+            <th>时间</th>
+            <th class="control">设置</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="filter input-sm">
+            <td><input class="form-control sm-2" type="text" placeholder="编号"></td>
+            <td><input class="form-control" type="text" placeholder="公司"></td>
+            <td>
+              <div class="row">
+                <div class="col-sm-6">
+                  <input class="form-control" type="date" placeholder="起始日期">
+                </div>
+
+                <div class="col-sm-6">
+                  <input class="form-control" type="date" placeholder="结束日期">
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="row">
+                <div class="col-sm-8 check-box date">
+                  <label class="checkbox-inline">
+                    <input type="checkbox" value="1">周一
+                  </label>
+                  <label class="checkbox-inline">
+                    <input type="checkbox" value="2">周二
+                  </label>
+                  <label class="checkbox-inline">
+                    <input type="checkbox" value="3">周三
+                  </label>
+                  <label class="checkbox-inline">
+                    <input type="checkbox" value="4">周四
+                  </label>
+                  <label class="checkbox-inline">
+                    <input type="checkbox" value="5">周五
+                  </label>
+                  <label class="checkbox-inline">
+                    <input type="checkbox" value="6">周六
+                  </label>
+                  <label class="checkbox-inline">
+                    <input type="checkbox" value="7">周日
+                  </label>
+                </div>
+                <div class="col-sm-4">
+                  <input class="form-control" type="date" placeholder="日期">
+                </div>
+              </div>
+            </td>
+            <td class="control">
+              <a class="btn btn-primary">筛选</a>
+            </td>
+          </tr>
+
+          <tr v-for="notice in viewData" :class="{'over-time': !notice.onTime}" v-show="notice.onTime || overTimeShow">
+            <td class="text-center">{{ notice.serial }}</td>
+            <td class="text-center">{{ notice.company }}</td>
+            <td>
+              <div class="row text-center">
+                <div class="col-sm-5"><time>{{ notice.term.begin }}</time></div>
+                <div class="col-sm-2">~</div>
+                <div class="col-sm-5"><time>{{ notice.term.end }}</time></div>
+              </div>
+            </td>
+            <td class="date">
+              <span v-for="day in notice.date.days">{{ day }}</span>
+            </td>
+            <td class="control text-center">
+              <a>查看</a>
+              <a>编辑</a>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+    <div class="page-nav">
+      <nav aria-label="navigation">
+        <ul class="pagination">
+          <li class="disabled">
+            <a href="#" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li class="active"><a href="#">1</a></li>
+          <li><a href="#">2</a></li>
+          <li><a href="#">3</a></li>
+          <li><a href="#">4</a></li>
+          <li><a href="#">5</a></li>
+          <li>
+            <a href="#" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+    </div>
+  </div>
+
+  <script src="./data/view.js"></script>
+  <script type="text/javascript">
+    let app = new Vue({
+      el: '#vue',
+      data() {
+        return{
+          viewData,
+          overTimeShow: true,
+        }
+      },
+      methods: {
+        overTimeToggle(){
+          this.overTimeShow = !this.overTimeShow;
+        }
+      }
+    });
+  </script>
+
+  <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+  <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</body>
+</html>

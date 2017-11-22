@@ -1,0 +1,102 @@
+@mainMenuMargin: 0 20px;
+@menuOffset: 70px;
+
+*{
+  margin: 0;
+  padding: 0;
+}
+#main-menu{
+  margin: @mainMenuMargin;
+}
+.menu-offset{
+  margin-top: @menuOffset;
+}
+form{
+  padding: 15px;
+}
+/* Todays Page */
+.number, .type{
+  width: 8%;
+  min-width: 70px;
+  span{
+    padding-right: 15px;
+  }
+}
+.flights{
+  span{
+    font-weight: bold;
+  }
+  time{
+    padding: 0 10px;
+  }
+}
+
+/* View Page */
+.over-time-toggle{
+  label{
+    margin: 0 5px 0;
+    font-size: 13px;
+  }
+  a{
+    font-size: 16px;
+  }
+}
+.over-time{
+  :not(a){
+    text-decoration: line-through;
+    color: gray;
+  }
+}
+.serial, .company, .control{
+  width: 8%;
+  min-width: 70px;
+  a, button{
+    display: inline-block;
+    margin: 0 10px;
+  }
+}
+.term{
+  width: 20%;
+  min-width: 350px;
+}
+.date{
+  span, label{
+    padding-right: 15px;
+    line-height: 34px;
+  }
+  input{
+    margin-top: 11px;
+  }
+}
+.page-nav{
+  margin: 20px 0;
+  text-align: center;
+}
+
+/* Add Page */
+.replace-button{
+  margin-top: 25px;
+}
+.add-flights > div{
+  margin: 10px 0;
+}
+.time-set{
+  div:first-child{
+    width: 80%;
+  }
+  div:last-child{
+    width: 20%;
+  }
+}
+.separate{
+  line-height: 34px;
+}
+.config{
+  margin-bottom: 10px;
+}
+.notes{
+  width: 100%;
+  textarea{
+    width: 100%;
+  }
+}
